@@ -1,26 +1,16 @@
 package com.linlibang.pay.module.cToB.entity.po;
 
-import io.swagger.annotations.Api;
+import com.linlibang.pay.module.base.UnionBaseRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @ApiModel("获取二维码请求体")
-public class GetQrcodeRequestPo {
+public class GetQrCodeRequestPo extends UnionBaseRequest {
 
-    @ApiModelProperty("消息id")
-    private String msgId;
-    @ApiModelProperty("报文请求时间")
-    private String requestTimestamp;
-    @ApiModelProperty("请求系统预留字段")
-    private String srcReserve;
-    @ApiModelProperty("商户号")
-    private String mid;
-    @ApiModelProperty("终端号")
-    private String tid;
-    @ApiModelProperty("业务类型,固定QRPAYDEFAULT")
-    private String instMid = "QRPAYDEFAULT";
     @ApiModelProperty("账单号")
     private String billNo;
     @ApiModelProperty("账单日期(yyyy-MM-dd)")
@@ -34,9 +24,9 @@ public class GetQrcodeRequestPo {
     @ApiModelProperty("平台商户分账金额")
     private int platformAmount;
     @ApiModelProperty("商品")
-    private GoodsPo goods;
+    private List<GoodsPo> goods;
     @ApiModelProperty("子订单信息")
-    private SubOrdersPo subOrders;
+    private List<SubOrdersPo> subOrders;
     @ApiModelProperty("会员号")
     private String memberId;
     @ApiModelProperty("桌号、柜台号、房号")
@@ -49,8 +39,6 @@ public class GetQrcodeRequestPo {
     private String returnUrl;
     @ApiModelProperty("二维码id")
     private String qrCodeId;
-    @ApiModelProperty("系统id")
-    private String systemId;
     @ApiModelProperty("担保交易标识")
     private String secureTransaction;
     @ApiModelProperty("钱包选项")
@@ -67,8 +55,5 @@ public class GetQrcodeRequestPo {
     private String fixBuyer;
     @ApiModelProperty("是否需要限制信用卡支付")
     private String limitCreditCard;
-
-
-
 
 }

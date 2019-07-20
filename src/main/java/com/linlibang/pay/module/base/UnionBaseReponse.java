@@ -1,12 +1,12 @@
-package com.linlibang.pay.module.cToB.entity.po;
+package com.linlibang.pay.module.base;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+@ApiModel("银联请求返回基本体")
 @Data
-@ApiModel("获取请求二维码返回体")
-public class GetQrcodeResponsePo {
+public class UnionBaseReponse {
     @ApiModelProperty("平台错误码")
     private String errCode;
     @ApiModelProperty("平台错误信息")
@@ -23,12 +23,6 @@ public class GetQrcodeResponsePo {
     private String tid;
     @ApiModelProperty("业务类型")
     private String instMid;
-    @ApiModelProperty("账单号")
-    private String billNo;
-    @ApiModelProperty("账单日期")
-    private String billDate;
-    @ApiModelProperty("账单二维码")
-    private String billQRCode;
     @ApiModelProperty("系统id")
     private String systemId;
 }

@@ -2,10 +2,18 @@ package com.linlibang.pay.module.unionPay;
 
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 import com.linlibang.common.lang.DateUtils;
 import com.linlibang.common.lang.StringUtils;
+import com.linlibang.pay.utils.HttpUtil;
 import com.linlibang.pay.utils.SHA256Util;
+import lombok.Data;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * 银联支付工具类
@@ -14,88 +22,38 @@ import lombok.extern.log4j.Log4j;
  * @version 2019-07-18
  */
 @Log4j
-
+@Component
+@Data
 public class UnionPayUtil {
 
-    private static String appId = "12345678901234567890123456789012";
-    private static String appKey = "67890123456789012345678901234567";
+    @Value("${unionPay.appId}")
+    private  String appId = "12345678901234567890123456789012";
+    @Value("${unionPay.appKey}")
+    private  String appKey = "67890123456789012345678901234567";
+    @Value("${unionPay.domainName}")
+    private String domainName;
     /**
      * 来源编号
      */
-    private static String source = "";
+    @Value("${unionPay.msgSrcId}")
+    private  String msgSrcId = "";
     /**
      * 商户号
      */
-    private static String mid = "";
+    @Value("${unionPay.mid}")
+    private  String mid = "";
     /**
      * 终端号
      */
-    private static String tid = "";
+    @Value("${unionPay.tid}")
+    private  String tid = "";
 
     /**
      * 支付结果通知地址
      */
-    private static String notifyUrl = "";
+    @Value("${unionPay.notifyUrl}")
+    private  String notifyUrl = "";
 
-    public static String getMid(){
-        return mid;
-    }
-    public static String getTid(){
-        return tid;
-    }
-
-    public static String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        UnionPayUtil.appId = appId;
-    }
-
-    public static String getAppKey() {
-        return appKey;
-    }
-
-    public void setAppKey(String appKey) {
-        UnionPayUtil.appKey = appKey;
-    }
-
-    public static String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        UnionPayUtil.source = source;
-    }
-
-    public void setMid(String mid) {
-        UnionPayUtil.mid = mid;
-    }
-
-    public void setTid(String tid) {
-        UnionPayUtil.tid = tid;
-    }
-
-    public static String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public  void setNotifyUrl(String notifyUrl) {
-        UnionPayUtil.notifyUrl = notifyUrl;
-    }
-
-    public static String getAppSource() {
-        return appSource;
-    }
-
-    public void setAppSource(String appSource) {
-        UnionPayUtil.appSource = appSource;
-    }
-
-    /**
-     * {来源编号(4位)}{时间(yyyyMMddmmHHssSSS)(17位)}{7位随机数}
-     */
-    private static String appSource = "TODO";
 
     /**
      * 获取银联请求头的校验字段Authorization
@@ -119,7 +77,7 @@ public class UnionPayUtil {
      * 例如：
      * F=”GINsCTyNKTpEI9KXO16KqZJ64fOyAytEKl8aaR/Dy08=”
      */
-    public static String getOpenBodySign(String body) {
+    public  String getOpenBodySign(String body) {
         //将请求body进行sha256
         body = SHA256Util.getSHA256StrJava(body);
         //随机字符串
@@ -144,12 +102,35 @@ public class UnionPayUtil {
     }
 
     /**
+     * 封装请求验证方法的POST
+     * @param url
+     * @param paramJson
+     * @return
+     */
+    public String sendPost(String url,String paramJson){
+        log.info("银联请求url:"+url);
+        log.info("请求参数:"+paramJson);
+        String authorization = getOpenBodySign(paramJson);
+        HashMap headMap = Maps.newHashMap();
+        headMap.put("Authorization", authorization);
+        String result = null;
+        try {
+            result = HttpUtil.post(domainName + url, paramJson, headMap);
+        } catch (IOException e) {
+            log.error("银联请求出现错误:", e);
+        }
+        return result;
+    }
+
+    /**
      * 获取订单号（来源编号+时间+7位随机数）
      * @return
      */
-    public static String getBiilNo(){
-        return source + DateUtils.getDate("yyyyMMddHhmmssSSS") + StringUtils.getRandomStr(7);
+    public  String getBillNo(){
+        return  msgSrcId + DateUtils.getDate("yyyyMMddHHmmssSSS") + StringUtils.getRandomStr(7);
     }
+
+
 
 
 }
