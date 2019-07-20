@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linlibang.pay.module.test.dao.TestDao">
+
+    <resultMap id="TestMap" type="com.linlibang.pay.module.test.TestEntity">
+        <result column="BUILDING_CODE" property="buildingCode"/>
+        <result column="SALE_BNAME" property="buildingName"/>
+    </resultMap>
+
+    <select id="getAllBuilding" resultMap="TestMap">
+        select id,BUILDING_CODE,SALE_BNAME
+        from obj_building
+    </select>
+
+    <insert id="insertBuilding" parameterType="com.linlibang.pay.module.test.TestEntity">
+        insert into obj_building (id,BUILDING_CODE,SALE_BNAME)values (sys_guid(),#{buildingCode},#{buildingName})
+    </insert>
+
+</mapper>

@@ -1,0 +1,90 @@
+# 端口与日志
+server:
+  port: 8090
+  tomcat:
+    uri-encoding: UTF-8
+    accesslog:
+      enabled: true
+      request-attributes-enabled: true
+      directory: logs
+      pattern: commonopen
+logging:
+  file: logs/pay.log
+  level: debug
+info:
+  version: @project.version@
+
+# 应用信息
+spring:
+  jackson:
+    serialization: true
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  application:
+    name: TIMES-PAY
+# HTTP
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+    multipart:
+      max-file-size: 10Mb
+  mandatory-file-encoding: UTF-8
+# 数据库
+  datasource:
+    url: jdbc:oracle:thin:@10.10.10.10:1522:EE   # 测试
+    username: 123456
+    password: 123456
+# 缓存
+  redis:
+    database: 1
+    host: 10.10.10.10
+    port: 6379
+    password:
+    pool.max-active: 8
+    pool.max-wait: -1
+    pool.max-idle: 8
+    pool.min-idle: 0
+    timeout: 0
+  cache:
+    type: redis
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  type-aliases-package: com.linlibang.timespcs.module
+
+mapper:
+  mappers: tk.mybatis.mapper.common.Mapper
+  notEmpty: true
+pagehelper:
+  helperDialect: oracle
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  pageSizeZero: true
+  default-count: false
+# swagger 配置
+swagger:
+  enable: true
+  context-path:
+# 关闭安全验证
+management:
+  security:
+    enabled: false
+
+
+
+#银联配置
+unionPay:
+  domianName: http://58.247.0.18:29015
+  notifyUrl: http://www.baidu.com  #支付结果通知url
+  tid: 53287206  #终端号
+  mid: 898440165134098 #商户号
+  msgSrcId: 1234 #来源编号
+  api:
+    cToB: #客户扫商户（C扫B）
+      getQrcode: /v1/netpay/bills/get-qrcode
+
+
