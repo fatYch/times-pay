@@ -16,6 +16,7 @@ public class UnionPayTest {
 
     @Test
     public void testSign(){
-        UnionPayUtil.getOpenBodySign("A");
+        UnionPayUtil unionPayUtil = new UnionPayUtil();
+        unionPayUtil.getOpenBodySign("A");
     }
 }

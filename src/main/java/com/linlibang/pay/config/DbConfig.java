@@ -21,8 +21,8 @@ import java.util.HashMap;
  * @date 2018/7/3 21:15
  */
 @Log4j
-@MapperScan(basePackages = {"com.linlibang.pay.module.*.dao"})
-@Configuration
+//@MapperScan(basePackages = {"com.linlibang.pay.module.*.dao"})
+//@Configuration
 public class DbConfig {
 
 	/*

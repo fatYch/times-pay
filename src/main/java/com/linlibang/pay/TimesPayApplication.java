@@ -1,5 +1,6 @@
 package com.linlibang.pay;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 //@EnableEurekaClient
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@MapperScan(basePackages = {"com.linlibang.pay.module.*.dao"})
 public class TimesPayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TimesPayApplication.class, args);

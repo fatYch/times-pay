@@ -5,13 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.linlibang.common.api.ApiConstant;
 import com.linlibang.common.api.BaseResponse;
+import com.linlibang.common.codec.Md5Utils;
 import com.linlibang.common.lang.DateUtils;
 import com.linlibang.common.lang.StringUtils;
 import com.linlibang.pay.module.base.UnionBaseRequest;
-import com.linlibang.pay.module.cToB.entity.po.CloseQrCodeRequestPo;
-import com.linlibang.pay.module.cToB.entity.po.CloseQrCodeResponsePo;
-import com.linlibang.pay.module.cToB.entity.po.GetQrCodeRequestPo;
-import com.linlibang.pay.module.cToB.entity.po.GetQrCodeResponsePo;
+import com.linlibang.pay.module.cToB.entity.po.*;
 import com.linlibang.pay.module.unionPay.UnionPayUtil;
 import com.linlibang.pay.utils.HttpUtil;
 import io.swagger.annotations.Api;
@@ -52,6 +50,11 @@ public class CToBUtil {
      */
     @Value("${unionPay.api.cToB.closeQrCode}")
     private  String closeQrCodeApi;
+    /**
+     * 查询订单状态
+     */
+    @Value("${unionPay.api.cToB.queryBill}")
+    private String queryBillApi;
 
     @Autowired
     private UnionPayUtil unionPayUtil;
@@ -112,6 +115,52 @@ public class CToBUtil {
     }
 
     /**
+     * 查询订单状态
+     * @param billNo
+     * @return
+     */
+    public BaseResponse queryBill(String billNo,String billDate){
+        QueryBillRequestPo queryBillRequestPo = new QueryBillRequestPo();
+        initParam(queryBillRequestPo);
+        queryBillRequestPo.setBillNo(billNo);
+        queryBillRequestPo.setBillDate(billDate);
+        String paramBody = JSON.toJSONString(queryBillRequestPo);
+        String result = unionPayUtil.sendPost(queryBillApi,paramBody);
+        if(StringUtils.isNotBlank(result)){
+            log.error("查询订单【"+billNo+"】接口返回空");
+            return new BaseResponse(ApiConstant.FAIL,"查询不到订单信息，请稍后再试!",null);
+        }
+        QueryBillResponsePo queryBillResponsePo = JSON.parseObject(result)
+                .toJavaObject(QueryBillResponsePo.class);
+        //TODO:根据返回结果进行校验
+        return new BaseResponse(queryBillResponsePo);
+    }
+
+
+    /**
+     * 异步流水通知
+     * @param resultJsonStr
+     */
+    public void asyncNotify(String resultJsonStr){
+        JSONObject resultJson = JSON.parseObject(resultJsonStr);
+        String sign = resultJson.getString("sign");
+        resultJson.remove("sign");
+        StringBuffer paramStr = new StringBuffer();
+        for(String key : resultJson.keySet()){
+            paramStr.append(key).append("=").append(resultJson.getJSONObject(key).toJSONString());
+        }
+        paramStr.append(unionPayUtil.getAppKey());
+        log.info("待加密参数:"+paramStr);
+        //比较md5后与sign比较
+        String paramMd5 = Md5Utils.md5(paramStr.toString()).toUpperCase();
+        log.info("参数MD5:"+paramMd5);
+        log.info("待比较sign:"+sign);
+        if(paramMd5.equals(sign)){
+            //TODO：确认签名无误，执行业务逻辑
+        }
+    }
+
+    /**
      * 请求参数初始化
      * @param unionBaseRequest
      */
@@ -121,4 +170,6 @@ public class CToBUtil {
         unionBaseRequest.setRequestTimestamp(DateUtils.getDate("yyyy-MM-dd HH:mm:ss"));
         unionBaseRequest.setInstMid(INST_MID);
     }
+
+
 }

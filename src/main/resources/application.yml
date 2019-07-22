@@ -89,5 +89,6 @@ unionPay:
     cToB: #客户扫商户（C扫B）
       getQrCode: /v1/netpay/bills/get-qrcode
       closeQrCode: /v1/netpay/bills/close-qrcode
+      queryBill: /v1/netpay/bills/query
 
 
