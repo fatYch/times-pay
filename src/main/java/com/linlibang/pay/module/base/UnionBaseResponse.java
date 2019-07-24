@@ -6,7 +6,7 @@ import lombok.Data;
 
 @ApiModel("银联请求返回基本体")
 @Data
-public class UnionBaseReponse {
+public class UnionBaseResponse {
     @ApiModelProperty("平台错误码")
     private String errCode;
     @ApiModelProperty("平台错误信息")

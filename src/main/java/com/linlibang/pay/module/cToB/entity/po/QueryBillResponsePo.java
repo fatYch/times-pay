@@ -1,6 +1,6 @@
 package com.linlibang.pay.module.cToB.entity.po;
 
-import com.linlibang.pay.module.base.UnionBaseReponse;
+import com.linlibang.pay.module.base.UnionBaseResponse;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,7 +9,8 @@ import java.util.List;
 
 @ApiModel("查询订单状态返回体")
 @Data
-public class QueryBillResponsePo extends UnionBaseReponse {
+public class QueryBillResponsePo extends UnionBaseResponse {
+
     @ApiModelProperty("账单号")
     private String billNo;
     @ApiModelProperty("订单时间(yyyy-MM-dd)")
@@ -42,6 +43,5 @@ public class QueryBillResponsePo extends UnionBaseReponse {
     private List<RefundBillPaymentPo> refundBillPayment;
     @ApiModelProperty("借贷记标识")
     private String cardAttr;
-
 
 }

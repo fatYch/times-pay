@@ -39,6 +39,13 @@ public class CToBController {
         return cToBUtil.queryBill(billNo,"2019-07-22");
     }
 
+    @ApiModelProperty("退款")
+    @PostMapping("/refundBill/{billNo}")
+    public BaseResponse refundBill(@PathVariable("billNo")String billNo){
+        cToBUtil.refundBill(billNo);
+        return new BaseResponse();
+    }
+
 
 
 

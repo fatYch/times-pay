@@ -27,32 +27,32 @@ import java.util.HashMap;
 public class UnionPayUtil {
 
     @Value("${unionPay.appId}")
-    private  String appId = "12345678901234567890123456789012";
+    private  String appId;
     @Value("${unionPay.appKey}")
-    private  String appKey = "67890123456789012345678901234567";
+    private  String appKey;
     @Value("${unionPay.domainName}")
     private String domainName;
     /**
      * 来源编号
      */
     @Value("${unionPay.msgSrcId}")
-    private  String msgSrcId = "";
+    private  String msgSrcId;
     /**
      * 商户号
      */
     @Value("${unionPay.mid}")
-    private  String mid = "";
+    private  String mid;
     /**
      * 终端号
      */
     @Value("${unionPay.tid}")
-    private  String tid = "";
+    private  String tid;
 
     /**
      * 支付结果通知地址
      */
     @Value("${unionPay.notifyUrl}")
-    private  String notifyUrl = "";
+    private  String notifyUrl;
 
 
     /**
@@ -82,8 +82,8 @@ public class UnionPayUtil {
         body = SHA256Util.getSHA256StrJava(body);
         //随机字符串
         String nonce = StringUtils.getRandomStr(16);
-        //当前时间戳
-        String timestamp = String.valueOf(System.currentTimeMillis());
+        //当前时间(yyyyMMddHHmmss)
+        String timestamp = DateUtils.getDate("yyyyMMddHHmmss");
         //待签名字符串
         String signStr = appId + timestamp + nonce + body;
         //这个获取hmac256后的byte[]经过base64编码后跟预期不一样，用打印JSON方式打印byte[]却一样
@@ -93,7 +93,7 @@ public class UnionPayUtil {
         log.info(signature);
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OPEN-BODY-SIG")
-                .append(" APPId=").append(appId)
+                .append(" AppId=").append(appId)
                 .append(",Timestamp=").append(timestamp)
                 .append(",Nonce=").append(nonce)
                 .append(",Signature=").append(signStr);

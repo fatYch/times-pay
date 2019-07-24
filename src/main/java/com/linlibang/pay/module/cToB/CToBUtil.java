@@ -10,6 +10,7 @@ import com.linlibang.common.lang.DateUtils;
 import com.linlibang.common.lang.StringUtils;
 import com.linlibang.pay.module.base.UnionBaseRequest;
 import com.linlibang.pay.module.cToB.entity.po.*;
+import com.linlibang.pay.module.unionPay.UnionPayDict;
 import com.linlibang.pay.module.unionPay.UnionPayUtil;
 import com.linlibang.pay.utils.HttpUtil;
 import io.swagger.annotations.Api;
@@ -28,13 +29,13 @@ import java.util.HashMap;
  */
 @Log4j
 @Component
-@ConfigurationProperties(prefix = "unionPay.api.cToB")
 public class CToBUtil {
 
     /**
      * 业务类型
      */
-    private final String INST_MID = "QRPAYDEFAULT";
+    @Value("${unionPay.api.cToB.INST_MID}")
+    private String INST_MID;
     /**
      * 银联域名
      */
@@ -55,6 +56,11 @@ public class CToBUtil {
      */
     @Value("${unionPay.api.cToB.queryBill}")
     private String queryBillApi;
+    /**
+     * 退款
+     */
+    @Value("￥{unionPay.api.cToB.refundBill}")
+    private String refundBillApi;
 
     @Autowired
     private UnionPayUtil unionPayUtil;
@@ -134,6 +140,30 @@ public class CToBUtil {
                 .toJavaObject(QueryBillResponsePo.class);
         //TODO:根据返回结果进行校验
         return new BaseResponse(queryBillResponsePo);
+    }
+
+    /**
+     * 退款
+     * @param billNo
+     */
+    public void refundBill(String billNo){
+        RefundBillRequestPo refundBillRequestPo = new RefundBillRequestPo();
+        initParam(refundBillRequestPo);
+        String paramJson = JSON.toJSONString(refundBillRequestPo);
+        String result = unionPayUtil.sendPost(refundBillApi,paramJson);
+        if(StringUtils.isBlank(result)){
+            log.error("调用退款接口返回空");
+            return;
+        }
+        log.info("退款接口返回:"+result);
+        RefundBillResponsePo refundBillResponsePo = JSON.parseObject(result)
+                .toJavaObject(RefundBillResponsePo.class);
+        //TODO:判断是否退款成功来执行业务逻辑
+        if(UnionPayDict.ERR_CODE_SUCCESS.equals(refundBillResponsePo.getErrCode())
+                && UnionPayDict.REFUND_STATUS_SUCCESS.equals(refundBillResponsePo.getRefundStatus())){
+
+        }
+
     }
 
 
