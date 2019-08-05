@@ -79,16 +79,18 @@ management:
 #银联配置
 unionPay:
   domainName: http://58.247.0.18:29015
-  notifyUrl: http://www.baidu.com  #支付结果通知url
+  notifyUrl: http://times-pcs.linli580.com.cn/pcs/unionPay/asyncNotify  #支付结果通知url
   tid: 53287206  #终端号
   mid: 898440165134098 #商户号
-  appId: 1234
+  appId: d82d785358de4769babf02280990d1e2
   appKey: 1234
   msgSrcId: 1234 #来源编号
   api:
     cToB: #客户扫商户（C扫B）
-      getQrCode: /v1/netpay/bills/get-qrcode
-      closeQrCode: /v1/netpay/bills/close-qrcode
-      queryBill: /v1/netpay/bills/query
+      INST_MID: QRPAYDEFAULT #业务编码
+      getQrCode: /v1/netpay/bills/get-qrcode #获取二维码
+      closeQrCode: /v1/netpay/bills/close-qrcode #关闭二维码
+      queryBill: /v1/netpay/bills/query #查询订单
+      refundBill: /v1/netpay/bills/refund #退款
 
 
