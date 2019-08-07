@@ -1,4 +1,4 @@
-package com.linlibang.pay.module.unionPay;
+package com.linlibang.pay.module.union;
 
 
 import com.alibaba.fastjson.JSON;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 银联支付工具类
@@ -26,32 +26,32 @@ import java.util.HashMap;
 @Data
 public class UnionPayUtil {
 
-    @Value("${unionPay.appId}")
+    @Value("${union.appId}")
     private  String appId;
-    @Value("${unionPay.appKey}")
+    @Value("${union.appKey}")
     private  String appKey;
-    @Value("${unionPay.domainName}")
+    @Value("${union.domainName}")
     private String domainName;
     /**
      * 来源编号
      */
-    @Value("${unionPay.msgSrcId}")
+    @Value("${union.msgSrcId}")
     private  String msgSrcId;
     /**
      * 商户号
      */
-    @Value("${unionPay.mid}")
+    @Value("${union.mid}")
     private  String mid;
     /**
      * 终端号
      */
-    @Value("${unionPay.tid}")
+    @Value("${union.tid}")
     private  String tid;
 
     /**
      * 支付结果通知地址
      */
-    @Value("${unionPay.notifyUrl}")
+    @Value("${union.notifyUrl}")
     private  String notifyUrl;
 
 
@@ -91,7 +91,7 @@ public class UnionPayUtil {
         log.info("待签名字符串:" + signStr);
         log.info("key:" + appKey);
         log.info(signature);
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         stringBuffer.append("OPEN-BODY-SIG")
                 .append(" AppId=").append(appId)
                 .append(",Timestamp=").append(timestamp)
@@ -103,15 +103,15 @@ public class UnionPayUtil {
 
     /**
      * 封装请求验证方法的POST
-     * @param url
-     * @param paramJson
-     * @return
+     * @param url 请求url
+     * @param paramJson 参数
+     * @return 处理后的POST请求结果
      */
     public String sendPost(String url,String paramJson){
         log.info("银联请求url:"+url);
         log.info("请求参数:"+paramJson);
         String authorization = getOpenBodySign(paramJson);
-        HashMap headMap = Maps.newHashMap();
+        Map<String,String> headMap = Maps.newHashMap();
         headMap.put("Authorization", authorization);
         String result = null;
         try {
@@ -124,7 +124,7 @@ public class UnionPayUtil {
 
     /**
      * 获取订单号（来源编号+时间+7位随机数）
-     * @return
+     * @return 订单号
      */
     public  String getBillNo(){
         return  msgSrcId + DateUtils.getDate("yyyyMMddHHmmssSSS") + StringUtils.getRandomStr(7);

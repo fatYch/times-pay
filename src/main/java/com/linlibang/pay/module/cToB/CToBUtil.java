@@ -2,7 +2,6 @@ package com.linlibang.pay.module.cToB;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
 import com.linlibang.common.api.ApiConstant;
 import com.linlibang.common.api.BaseResponse;
 import com.linlibang.common.codec.Md5Utils;
@@ -10,19 +9,12 @@ import com.linlibang.common.lang.DateUtils;
 import com.linlibang.common.lang.StringUtils;
 import com.linlibang.pay.module.base.UnionBaseRequest;
 import com.linlibang.pay.module.cToB.entity.po.*;
-import com.linlibang.pay.module.unionPay.UnionPayDict;
-import com.linlibang.pay.module.unionPay.UnionPayUtil;
-import com.linlibang.pay.utils.HttpUtil;
-import io.swagger.annotations.Api;
+import com.linlibang.pay.module.union.UnionPayDict;
+import com.linlibang.pay.module.union.UnionPayUtil;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * C扫B
@@ -34,32 +26,32 @@ public class CToBUtil {
     /**
      * 业务类型
      */
-    @Value("${unionPay.api.cToB.INST_MID}")
+    @Value("${union.api.cToB.INST_MID}")
     private String INST_MID;
     /**
      * 银联域名
      */
-    @Value("${unionPay.domainName}")
+    @Value("${union.domainName}")
     private  String domainName;
     /**
      * 获取付款二维码API
      */
-    @Value("${unionPay.api.cToB.getQrCode}")
+    @Value("${union.api.cToB.getQrCode}")
     private  String getQrCodeApi;
     /**
      * 关闭付款二维码API
      */
-    @Value("${unionPay.api.cToB.closeQrCode}")
+    @Value("${union.api.cToB.closeQrCode}")
     private  String closeQrCodeApi;
     /**
      * 查询订单状态
      */
-    @Value("${unionPay.api.cToB.queryBill}")
+    @Value("${union.api.cToB.queryBill}")
     private String queryBillApi;
     /**
      * 退款
      */
-    @Value("￥{unionPay.api.cToB.refundBill}")
+    @Value("￥{union.api.cToB.refundBill}")
     private String refundBillApi;
 
     @Autowired

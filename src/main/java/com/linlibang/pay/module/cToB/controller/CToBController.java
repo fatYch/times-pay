@@ -45,6 +45,12 @@ public class CToBController {
         cToBUtil.refundBill(billNo);
         return new BaseResponse();
     }
+    @ApiModelProperty("支付结果通知回调")
+    @PostMapping("/notify")
+    public String notify(@RequestBody String body){
+        log.info("银联回调:"+body);
+        return "SUCCESS";
+    }
 
 
 
