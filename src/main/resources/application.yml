@@ -77,7 +77,7 @@ management:
 
 
 #银联配置
-union:
+unionPay:
   domainName: http://58.247.0.18:29015
   notifyUrl: http://times-pcs.linli580.com.cn/pcs/union/asyncNotify  #支付结果通知url
   tid: 53287206  #终端号

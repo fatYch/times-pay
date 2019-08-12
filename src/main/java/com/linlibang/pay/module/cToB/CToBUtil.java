@@ -2,7 +2,6 @@ package com.linlibang.pay.module.cToB;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
 import com.linlibang.common.api.ApiConstant;
 import com.linlibang.common.api.BaseResponse;
 import com.linlibang.common.codec.Md5Utils;
@@ -10,19 +9,13 @@ import com.linlibang.common.lang.DateUtils;
 import com.linlibang.common.lang.StringUtils;
 import com.linlibang.pay.module.base.UnionBaseRequest;
 import com.linlibang.pay.module.cToB.entity.po.*;
-import com.linlibang.pay.module.unionPay.UnionPayDict;
+import com.linlibang.pay.module.union.UnionPayDict;
 import com.linlibang.pay.module.unionPay.UnionPayUtil;
-import com.linlibang.pay.utils.HttpUtil;
-import io.swagger.annotations.Api;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * C扫B
