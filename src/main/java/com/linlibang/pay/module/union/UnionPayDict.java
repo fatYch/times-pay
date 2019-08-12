@@ -1,4 +1,4 @@
-package com.linlibang.pay.module.unionPay;
+package com.linlibang.pay.module.union;
 
 /**
  * 银联字典表
@@ -14,6 +14,7 @@ public class UnionPayDict {
 
     /**
      * 退款结果
+     * SUCCESS 成功 FAIL 失败 PROCESSING 处理中 UNKNOWN 异常
      */
     public final static String REFUND_STATUS_SUCCESS = "SUCCESS";
     public final static String RFFUND_STATUS_FAIL = "FAIL";
