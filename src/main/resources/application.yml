@@ -92,5 +92,10 @@ unionPay:
       closeQrCode: /v1/netpay/bills/close-qrcode #关闭二维码
       queryBill: /v1/netpay/bills/query #查询订单
       refundBill: /v1/netpay/bills/refund #退款
+    h5:
+      INST_MID: H5DEFAULT #业务编码
+      payByTrade: /v1/netpay/trade/h5-pay #支付宝H5
+      payByQmf: /v1/netpay/qmf/h5-pay #银联在线无卡
+      payByUac: /v1/netpay/uac/order #银联云闪付
 
 

@@ -1,5 +1,7 @@
 package com.linlibang.pay.module.cToB.entity.po;
 
+import com.linlibang.pay.module.base.GoodsPo;
+import com.linlibang.pay.module.base.SubOrdersPo;
 import com.linlibang.pay.module.base.UnionBaseRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,4 +1,4 @@
-package com.linlibang.pay.module.cToB.entity.po;
+package com.linlibang.pay.module.base;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

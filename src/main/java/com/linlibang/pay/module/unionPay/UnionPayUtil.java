@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.StringJoiner;
 
 /**
  * 银联支付工具类
@@ -78,25 +80,18 @@ public class UnionPayUtil {
      * F=”GINsCTyNKTpEI9KXO16KqZJ64fOyAytEKl8aaR/Dy08=”
      */
     public  String getOpenBodySign(String body) {
-        //将请求body进行sha256
-        body = SHA256Util.getSHA256StrJava(body);
         //随机字符串
         String nonce = StringUtils.getRandomStr(16);
         //当前时间(yyyyMMddHHmmss)
         String timestamp = DateUtils.getDate("yyyyMMddHHmmss");
-        //待签名字符串
-        String signStr = appId + timestamp + nonce + body;
-        //这个获取hmac256后的byte[]经过base64编码后跟预期不一样，用打印JSON方式打印byte[]却一样
-        String signature = JSON.toJSONString(SHA256Util.getHmacSha256(signStr, appKey));
-        log.info("待签名字符串:" + signStr);
-        log.info("key:" + appKey);
-        log.info(signature);
+        //获取签名
+        String signature = getSign(body, appId, timestamp, nonce);
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OPEN-BODY-SIG")
                 .append(" AppId=").append(appId)
                 .append(",Timestamp=").append(timestamp)
                 .append(",Nonce=").append(nonce)
-                .append(",Signature=").append(signStr);
+                .append(",Signature=").append(signature);
         log.info("最终请求头参数:"+stringBuffer.toString());
         return stringBuffer.toString();
     }
@@ -120,6 +115,56 @@ public class UnionPayUtil {
             log.error("银联请求出现错误:", e);
         }
         return result;
+    }
+
+    /**
+     * 封装get请求
+     * @param url
+     * @param paramJson
+     * @return
+     */
+    public String sendGet(String url,String paramJson){
+        log.info("银联请求url:"+url);
+        log.info("请求参数:"+paramJson);
+        //随机字符串
+        String nonce = StringUtils.getRandomStr(16);
+        //当前时间(yyyyMMddHHmmss)
+        String timestamp = DateUtils.getDate("yyyyMMddHHmmss");
+        //获取签名
+        String signature = getSign(paramJson, appId, timestamp, nonce);
+        StringJoiner urlJoiner = new StringJoiner("");
+        urlJoiner.add(url);
+        urlJoiner.add("?");
+        urlJoiner.add("authorization=").add("OPEN-FROM_PARAM").add("&");
+        urlJoiner.add("appId=").add(appId).add("&");
+        urlJoiner.add("timestamp=").add(timestamp).add("&");
+        urlJoiner.add("nonce=").add(nonce).add("&");
+        urlJoiner.add("content=").add(URLEncoder.encode(paramJson)).add("&");
+        urlJoiner.add("signature=").add(URLEncoder.encode(signature.replace("\"","")));
+        log.info("加密后Url:"+urlJoiner.toString());
+        String result = HttpUtil.get(urlJoiner.toString());
+        log.info("请求返回:"+result);
+        return result;
+    }
+
+    /**
+     * 获取签名
+     * @param paramJson
+     * @param timestamp
+     * @param nonce
+     * @return
+     */
+    private String getSign(String paramJson, String appId, String timestamp, String nonce){
+        //将参数JSON进行SHA256
+        paramJson = SHA256Util.getSHA256StrJava(paramJson);
+        //待签名字符串
+        String signStr = appId + timestamp + nonce + paramJson;
+        //这个获取hmac256后的byte[]经过base64编码后跟预期不一样，用打印JSON方式打印byte[]却一样
+        String signature = JSON.toJSONString(SHA256Util.getHmacSha256(signStr, appKey));
+        log.info("待签名字符串:" + signStr);
+        log.info("key:" + appKey);
+        log.info(signature);
+        return signature;
     }
 
     /**

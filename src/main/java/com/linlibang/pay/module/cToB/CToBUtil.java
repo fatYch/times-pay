@@ -35,7 +35,7 @@ public class CToBUtil {
      * 业务类型
      */
     @Value("${unionPay.api.cToB.INST_MID}")
-    private String INST_MID;
+    private String instMid;
     /**
      * 银联域名
      */
@@ -59,7 +59,7 @@ public class CToBUtil {
     /**
      * 退款
      */
-    @Value("￥{unionPay.api.cToB.refundBill}")
+    @Value("${unionPay.api.cToB.refundBill}")
     private String refundBillApi;
 
     @Autowired
@@ -198,7 +198,7 @@ public class CToBUtil {
         unionBaseRequest.setTid(unionPayUtil.getTid());
         unionBaseRequest.setMid(unionPayUtil.getMid());
         unionBaseRequest.setRequestTimestamp(DateUtils.getDate("yyyy-MM-dd HH:mm:ss"));
-        unionBaseRequest.setInstMid(INST_MID);
+        unionBaseRequest.setInstMid(instMid);
     }
 
 
