@@ -57,23 +57,22 @@ public class SHA256Util {
         Mac sha256_HMAC = null;
         try {
             sha256_HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
-        sha256_HMAC.init(secret_key);
-        byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
-        System.out.println(JSON.toJSONString(array));
+            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
+            System.out.println(JSON.toJSONString(array));
             StringBuilder sb = new StringBuilder();
             for (byte item : array) {
                 sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString().toUpperCase();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static byte[] getHmacSha256 (String data, String key) {
+    public static byte[] getHmacSha256(String data, String key) {
         Mac sha256_HMAC = null;
         try {
             sha256_HMAC = Mac.getInstance("HmacSHA256");
@@ -81,8 +80,7 @@ public class SHA256Util {
             sha256_HMAC.init(secret_key);
             byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
             return array;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -98,7 +96,7 @@ public class SHA256Util {
     private static String byteArrayToHexString(byte[] b) {
         StringBuilder hs = new StringBuilder();
         String stmp;
-        for (int n = 0; b!=null && n < b.length; n++) {
+        for (int n = 0; b != null && n < b.length; n++) {
             stmp = Integer.toHexString(b[n] & 0XFF);
             if (stmp.length() == 1)
                 hs.append('0');
@@ -106,8 +104,10 @@ public class SHA256Util {
         }
         return hs.toString().toLowerCase();
     }
+
     /**
      * sha256_HMAC加密
+     *
      * @param message 消息
      * @param secret  秘钥
      * @return 加密后字符串

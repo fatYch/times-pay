@@ -30,73 +30,73 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-	@Value("${swagger.enable}")
-	private boolean enableSwagger;
+    @Value("${swagger.enable}")
+    private boolean enableSwagger;
 
-	@Value("${swagger.context-path}")
-	private String contextPath;
+    @Value("${swagger.context-path}")
+    private String contextPath;
 
-	private final ServletContext servletContext;
+    private final ServletContext servletContext;
 
-	@Autowired
-	public SwaggerConfig(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
+    @Autowired
+    public SwaggerConfig(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 
-	@Bean
-	public Docket wyApi() {
+    @Bean
+    public Docket wyApi() {
 
-		//noinspection Guava
-		return new Docket(DocumentationType.SWAGGER_2)
-				.groupName("TIMES-PAY")
-				.enable(enableSwagger)
-				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.linlibang.pay.module"))
+        //noinspection Guava
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("TIMES-PAY")
+                .enable(enableSwagger)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.linlibang.pay.module"))
 //				.paths(Predicates.not(PathSelectors.ant("/api/crm/*")))
 //				.paths(Predicates.not(PathSelectors.ant("/api/pmscrm/*")))
-				.paths(PathSelectors.any())
-				.build()
-				.apiInfo(getWyApiInfo())
-				.pathProvider(new RelativePathProvider(servletContext) {
-					@Override
-					public String getApplicationBasePath() {
-						return contextPath;
-					}
-				})
-				.securitySchemes(apiKey())
-				.securityContexts(securityContexts());
-	}
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(getWyApiInfo())
+                .pathProvider(new RelativePathProvider(servletContext) {
+                    @Override
+                    public String getApplicationBasePath() {
+                        return contextPath;
+                    }
+                })
+                .securitySchemes(apiKey())
+                .securityContexts(securityContexts());
+    }
 
-	private ApiInfo getWyApiInfo() {
+    private ApiInfo getWyApiInfo() {
 
-		return new ApiInfoBuilder()
-				.title("TIMES-PAY")
-				.description("银联支付文档")
-				.version("1.0.0")
-				.contact(new Contact("肥美的洪洪哥","http://blog.yaoch.top","yaocanhong@timesgroup.cn"))
-				.build();
-	}
+        return new ApiInfoBuilder()
+                .title("TIMES-PAY")
+                .description("银联支付文档")
+                .version("1.0.0")
+                .contact(new Contact("肥美的洪洪哥", "http://blog.yaoch.top", "yaocanhong@timesgroup.cn"))
+                .build();
+    }
 
-	private List<ApiKey> apiKey() {
-		List<ApiKey> apiKeyList = Lists.newArrayList();
-		apiKeyList.add(new ApiKey("tokenId", "tokenId", "query"));
-		return apiKeyList;
-	}
+    private List<ApiKey> apiKey() {
+        List<ApiKey> apiKeyList = Lists.newArrayList();
+        apiKeyList.add(new ApiKey("tokenId", "tokenId", "query"));
+        return apiKeyList;
+    }
 
-	private List<SecurityContext> securityContexts() {
-		//noinspection Guava
-		return Collections.singletonList(SecurityContext.builder()
-				.securityReferences(defaultAuth())
-				.forPaths(Predicates.not(PathSelectors.ant("/user/login")))
+    private List<SecurityContext> securityContexts() {
+        //noinspection Guava
+        return Collections.singletonList(SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(Predicates.not(PathSelectors.ant("/user/login")))
 //				.forPaths(PathSelectors.regex("^(?!login).*$"))
-				.build());
-	}
+                .build());
+    }
 
-	private List<SecurityReference> defaultAuth() {
-		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-		authorizationScopes[0] = authorizationScope;
-		return Collections.singletonList(new SecurityReference("tokenId", authorizationScopes));
-	}
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Collections.singletonList(new SecurityReference("tokenId", authorizationScopes));
+    }
 
 }

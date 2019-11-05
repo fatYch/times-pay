@@ -16,27 +16,27 @@ import java.util.Map;
 @Log4j
 public class CustomTraceRepository extends InMemoryTraceRepository {
 
-	private static final List<String> ACTUATOR_POINT = Arrays.asList(
-			"/logfile", "/metrics", "/env", "/loggers", "/jolokia", "/dump", "/auditevents", "/liquibase",
-			"/flyway", "/heapdump", "/trace", "/health", "/info",
-			"/webjars/springfox-swagger-ui",
-			"/swagger-resources",
-			"/swagger-ui.html",
-			"/v2/api-docs",
-			"/favicon.ico"
-	);
+    private static final List<String> ACTUATOR_POINT = Arrays.asList(
+            "/logfile", "/metrics", "/env", "/loggers", "/jolokia", "/dump", "/auditevents", "/liquibase",
+            "/flyway", "/heapdump", "/trace", "/health", "/info",
+            "/webjars/springfox-swagger-ui",
+            "/swagger-resources",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/favicon.ico"
+    );
 
-	@Override
-	public void add(Map<String, Object> map) {
-		String path = map.get("path").toString();
+    @Override
+    public void add(Map<String, Object> map) {
+        String path = map.get("path").toString();
 
-		for (String s : ACTUATOR_POINT) {
-			if (path.contains(s)) {
-				return;
-			}
-		}
+        for (String s : ACTUATOR_POINT) {
+            if (path.contains(s)) {
+                return;
+            }
+        }
 
-		super.add(map);
-	}
+        super.add(map);
+    }
 
 }

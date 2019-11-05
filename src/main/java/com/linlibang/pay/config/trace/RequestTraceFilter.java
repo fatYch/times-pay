@@ -19,33 +19,33 @@ import java.util.Map;
  */
 public class RequestTraceFilter extends WebRequestTraceFilter {
 
-	public RequestTraceFilter(CustomTraceRepository repository, TraceProperties properties) {
-		super(repository, properties);
-	}
+    public RequestTraceFilter(CustomTraceRepository repository, TraceProperties properties) {
+        super(repository, properties);
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		TeeHttpServletResponse teeResponse = new TeeHttpServletResponse(response);
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        TeeHttpServletResponse teeResponse = new TeeHttpServletResponse(response);
 
-		filterChain.doFilter(request, teeResponse);
+        filterChain.doFilter(request, teeResponse);
 
-		teeResponse.finish();
+        teeResponse.finish();
 
-		request.setAttribute("responseBody", teeResponse.getOutputBuffer());
+        request.setAttribute("responseBody", teeResponse.getOutputBuffer());
 
-		super.doFilterInternal(request, teeResponse, filterChain);
-	}
+        super.doFilterInternal(request, teeResponse, filterChain);
+    }
 
-	@Override
-	protected Map<String, Object> getTrace(HttpServletRequest request) {
-		Map<String, Object> trace = super.getTrace(request);
+    @Override
+    protected Map<String, Object> getTrace(HttpServletRequest request) {
+        Map<String, Object> trace = super.getTrace(request);
 
-		byte[] outputBuffer = (byte[]) request.getAttribute("responseBody");
+        byte[] outputBuffer = (byte[]) request.getAttribute("responseBody");
 
-		if (outputBuffer!=null) {
-			trace.put("responseBody", new String(outputBuffer, StandardCharsets.UTF_8));
-		}
+        if (outputBuffer != null) {
+            trace.put("responseBody", new String(outputBuffer, StandardCharsets.UTF_8));
+        }
 
-		return trace;
-	}
+        return trace;
+    }
 }

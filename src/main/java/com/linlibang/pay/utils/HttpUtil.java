@@ -3,6 +3,7 @@ package com.linlibang.pay.utils;
 import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ public class HttpUtil {
 
     /**
      * 获取请求IP
+     *
      * @param request
      * @return
      */
@@ -52,7 +54,8 @@ public class HttpUtil {
 
 
     /**
-     * Send a get request
+     * Send a get form
+     *
      * @param url
      * @return response
      * @throws IOException
@@ -62,9 +65,10 @@ public class HttpUtil {
     }
 
     /**
-     * Send a get request
-     * @param url         Url as string
-     * @param headers     Optional map with headers
+     * Send a get form
+     *
+     * @param url     Url as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -74,10 +78,11 @@ public class HttpUtil {
     }
 
     /**
-     * Send a post request
-     * @param url         Url as string
-     * @param body        Request body as string
-     * @param headers     Optional map with headers
+     * Send a post form
+     *
+     * @param url     Url as string
+     * @param body    Request body as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -87,9 +92,10 @@ public class HttpUtil {
     }
 
     /**
-     * Send a post request
-     * @param url         Url as string
-     * @param body        Request body as string
+     * Send a post form
+     *
+     * @param url  Url as string
+     * @param body Request body as string
      * @return response   Response as string
      * @throws IOException
      */
@@ -99,8 +105,9 @@ public class HttpUtil {
 
     /**
      * Post a form with parameters
-     * @param url         Url as string
-     * @param params      map with parameters/values
+     *
+     * @param url    Url as string
+     * @param params map with parameters/values
      * @return response   Response as string
      * @throws IOException
      */
@@ -111,9 +118,10 @@ public class HttpUtil {
 
     /**
      * Post a form with parameters
-     * @param url         Url as string
-     * @param params      Map with parameters/values
-     * @param headers     Optional map with headers
+     *
+     * @param url     Url as string
+     * @param params  Map with parameters/values
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -132,8 +140,7 @@ public class HttpUtil {
             for (String param : params.keySet()) {
                 if (first) {
                     first = false;
-                }
-                else {
+                } else {
                     body += "&";
                 }
                 String value = params.get(param);
@@ -146,10 +153,11 @@ public class HttpUtil {
     }
 
     /**
-     * Send a put request
-     * @param url         Url as string
-     * @param body        Request body as string
-     * @param headers     Optional map with headers
+     * Send a put form
+     *
+     * @param url     Url as string
+     * @param body    Request body as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -159,8 +167,9 @@ public class HttpUtil {
     }
 
     /**
-     * Send a put request
-     * @param url         Url as string
+     * Send a put form
+     *
+     * @param url Url as string
      * @return response   Response as string
      * @throws IOException
      */
@@ -169,9 +178,10 @@ public class HttpUtil {
     }
 
     /**
-     * Send a delete request
-     * @param url         Url as string
-     * @param headers     Optional map with headers
+     * Send a delete form
+     *
+     * @param url     Url as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -181,8 +191,9 @@ public class HttpUtil {
     }
 
     /**
-     * Send a delete request
-     * @param url         Url as string
+     * Send a delete form
+     *
+     * @param url Url as string
      * @return response   Response as string
      * @throws IOException
      */
@@ -192,8 +203,9 @@ public class HttpUtil {
 
     /**
      * Append query parameters to given url
-     * @param url         Url as string
-     * @param params      Map with query parameters
+     *
+     * @param url    Url as string
+     * @param params Map with query parameters
      * @return url        Url with query parameters appended
      * @throws IOException
      */
@@ -206,8 +218,7 @@ public class HttpUtil {
                 if (first) {
                     fullUrl += '?';
                     first = false;
-                }
-                else {
+                } else {
                     fullUrl += '&';
                 }
                 String value = params.get(param);
@@ -221,7 +232,8 @@ public class HttpUtil {
 
     /**
      * Retrieve the query parameters from given url
-     * @param url         Url containing query parameters
+     *
+     * @param url Url containing query parameters
      * @return params     Map with query parameters
      * @throws IOException
      */
@@ -236,8 +248,7 @@ public class HttpUtil {
             String param = "";
             if (equals != -1) {
                 param = url.substring(start + 1, equals);
-            }
-            else {
+            } else {
                 param = url.substring(start + 1);
             }
 
@@ -247,8 +258,7 @@ public class HttpUtil {
                 start = url.indexOf('&', equals);
                 if (start != -1) {
                     value = url.substring(equals + 1, start);
-                }
-                else {
+                } else {
                     value = url.substring(equals + 1);
                 }
             }
@@ -262,7 +272,8 @@ public class HttpUtil {
 
     /**
      * Returns the url without query parameters
-     * @param url         Url containing query parameters
+     *
+     * @param url Url containing query parameters
      * @return url        Url without query parameters
      * @throws IOException
      */
@@ -271,18 +282,18 @@ public class HttpUtil {
         int q = url.indexOf('?');
         if (q != -1) {
             return url.substring(0, q);
-        }
-        else {
+        } else {
             return url;
         }
     }
 
     /**
-     * Send a request
-     * @param method      HTTP method, for example "GET" or "POST"
-     * @param url         Url as string
-     * @param body        Request body as string
-     * @param headers     Optional map with headers
+     * Send a form
+     *
+     * @param method  HTTP method, for example "GET" or "POST"
+     * @param url     Url as string
+     * @param body    Request body as string
+     * @param headers Optional map with headers
      * @return response   Response as string
      * @throws IOException
      */
@@ -317,7 +328,7 @@ public class HttpUtil {
                 os.flush();
                 os.close();
             }
-            InputStream is = conn.getResponseCode() == HttpURLConnection.HTTP_OK?
+            InputStream is = conn.getResponseCode() == HttpURLConnection.HTTP_OK ?
                     conn.getInputStream() : conn.getErrorStream();
             String response = streamToString(is);
             is.close();
@@ -333,8 +344,10 @@ public class HttpUtil {
         }
         return null;
     }
+
     /**
      * Read an input stream into a string
+     *
      * @param in
      * @return
      * @throws IOException
@@ -342,9 +355,11 @@ public class HttpUtil {
     static public String streamToString(InputStream in) throws IOException {
         StringBuffer out = new StringBuffer();
         byte[] b = new byte[4096];
-        for (int n; (n = in.read(b)) != -1;) {
+        for (int n; (n = in.read(b)) != -1; ) {
             out.append(new String(b, 0, n));
         }
         return out.toString();
     }
+
+
 }

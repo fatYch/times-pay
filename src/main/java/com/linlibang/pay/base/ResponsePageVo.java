@@ -14,16 +14,17 @@ import java.util.List;
 @ApiModel("分页对象")
 public class ResponsePageVo<T> implements Serializable {
 
-    public ResponsePageVo(){
+    public ResponsePageVo() {
     }
 
-    public ResponsePageVo(int pageNum,int pageSize,long total,int pages,List<T> data){
+    public ResponsePageVo(int pageNum, int pageSize, long total, int pages, List<T> data) {
         this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.total = total;
         this.pages = pages;
         this.data = data;
     }
+
     @ApiModelProperty("第几页")
     private int pageNum;//第几页
     @ApiModelProperty("每页数量")

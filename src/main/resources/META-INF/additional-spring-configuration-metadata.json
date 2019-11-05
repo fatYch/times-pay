@@ -1,19 +1,19 @@
 {
   "properties": [
-	{
-	  "name": "swagger.enable",
-	  "type": "java.lang.Boolean",
-	  "description": "是否开启 默认Swagger api"
-	},
-	{
-	  "name": "swagger.context-path",
-	  "type": "java.lang.String",
-	  "description": "是否需要添加context path, 不需要则为空"
-	},
-	{
-	  "name": "swagger.enable-crm",
-	  "type": "java.lang.Boolean",
-	  "description": "是否开启crm Swagger api"
-	}
+    {
+      "name": "swagger.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启 默认Swagger api"
+    },
+    {
+      "name": "swagger.context-path",
+      "type": "java.lang.String",
+      "description": "是否需要添加context path, 不需要则为空"
+    },
+    {
+      "name": "swagger.enable-crm",
+      "type": "java.lang.Boolean",
+      "description": "是否开启crm Swagger api"
+    }
   ]
 }

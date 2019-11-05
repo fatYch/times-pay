@@ -8,6 +8,7 @@ import java.util.Vector;
 
 /**
  * 重构请求参数类
+ *
  * @author 肥美的洪洪哥
  * @version 2019-07-15
  */
@@ -64,9 +65,9 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
         } else if (v instanceof String[]) {
             result = (String[]) v;
         } else if (v instanceof String) {
-            result = new String[] { (String) v };
+            result = new String[]{(String) v};
         } else {
-            result = new String[] { v.toString() };
+            result = new String[]{v.toString()};
         }
 
         return result;
@@ -90,7 +91,7 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
                 if (!this.params.containsKey(key)) {
                     if (splitIndex < params[i].length()) {
                         String value = params[i].substring(splitIndex + 1);
-                        this.params.put(key, new String[] { value });
+                        this.params.put(key, new String[]{value});
                     }
                 }
             }

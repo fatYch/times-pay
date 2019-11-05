@@ -53,7 +53,7 @@ spring:
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/**/*.xml
-  type-aliases-package: com.linlibang.timespcs.module
+  type-aliases-package: com.linlibang.pay.module
 
 mapper:
   mappers: tk.mybatis.mapper.common.Mapper
@@ -75,18 +75,29 @@ management:
     enabled: false
 
 
-
 #银联配置
 unionPay:
   domainName: http://58.247.0.18:29015
-  notifyUrl: http://times-pcs.linli580.com.cn/pcs/union/asyncNotify  #支付结果通知url
-  tid: 53287206  #终端号
-  mid: 898440165134098 #商户号
-  appId: d82d785358de4769babf02280990d1e2
-  appKey: 1234
-  msgSrcId: 1234 #来源编号
+  notifyUrl: http://times-pcs.linli580.com.cn/pcs/unionPay/asyncNotify  #支付结果通知url
+  msgSrcId: 1017 #银联来源编号（银商分配）
+  #  B扫C账号
+  appId: f0ec96ad2c3848b5b810e7aadf369e2f
+  appKey: 775481e2556e4564985f5439a5e6a277
+  mid: 123456789900081
+  tid: "00810001"
+  #  C扫B账号
+  #  tid: 38557688  #终端号
+  #  mid: 898340149000035 #商户号
+  #  appId: 10037ca764636bbc01647d1ef4e10009
+  #  appKey: 389d830dcc0c46a58b0ea1962041e497 
   api:
-    cToB: #客户扫商户（C扫B）
+    b2c: #商户扫客户（B扫C）
+      activeTerminal: /v2/poslink/transaction/activeterminal #激活终端
+      pay: /v2/poslink/transaction/pay  #支付
+      voidPayment: /v2/poslink/transaction/voidpayment #支付撤销（当天）
+      refund: /v2/poslink/transaction/refund #交易退款(隔天)
+      query: /v2/poslink/transaction/query #订单查询
+    c2b: #客户扫商户（C扫B）
       INST_MID: QRPAYDEFAULT #业务编码
       getQrCode: /v1/netpay/bills/get-qrcode #获取二维码
       closeQrCode: /v1/netpay/bills/close-qrcode #关闭二维码

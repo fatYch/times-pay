@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ActuateConfig {
 
-	@Bean
-	public CustomTraceRepository customTraceRepository() {
-		CustomTraceRepository customTraceRepository = new CustomTraceRepository();
-		customTraceRepository.setCapacity(100);
-		return customTraceRepository;
-	}
+    @Bean
+    public CustomTraceRepository customTraceRepository() {
+        CustomTraceRepository customTraceRepository = new CustomTraceRepository();
+        customTraceRepository.setCapacity(100);
+        return customTraceRepository;
+    }
 
 }

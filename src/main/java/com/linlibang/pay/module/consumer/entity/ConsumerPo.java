@@ -1,19 +1,19 @@
 package com.linlibang.pay.module.consumer.entity;
 
-import com.linlibang.pay.base.DataEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
  * 接入系统信息
+ *
  * @author yaocanhong
  * @version 2019-08-07
  */
 
 @Data
 @ApiModel("接入系统")
-public class ConsumerPo extends DataEntity {
+public class ConsumerPo {
 
     @ApiModelProperty("系统名称")
     private String name;
